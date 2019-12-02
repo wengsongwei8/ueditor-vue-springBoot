@@ -1,0 +1,41 @@
+#对外端口
+server:
+  port: 6024
+#单独访问时，可以使用访问路径，和网关配置的路由一样
+#  servlet:
+#    context-path: /api/ueditor
+
+#应用属性
+app:
+  # 上传类型,1本地，2ceph
+  upload-type: 1
+  #本地上传需要配置
+  # 上传文件的路径，上传类型为本地才需要
+  resource_home: F:\uploadFile
+  file:
+    # 本地上传时资源的访问地址,，上传类型为本地才需要1
+    local_file_visit_url_prefix: http://127.0.0.1:6024/
+    # 文件上传路径
+    uploadfile-path: ${app.resource_home}/uploadfiles/
+    # 上传类型为本地才需要
+    web_resources: ${app.resource_home}/ui/
+
+
+spring:
+  application:
+    name: ueditor-api
+  resources:
+    static-locations: classpath:/META-INF/resources/, classpath:/resources/, classpath:/static/, file:${app.file.uploadfile-path}, file:${app.file.web_resources}
+  #增加上传限制
+  servlet:
+    multipart:
+      #10000M
+      max-file-size: 1000Mb
+      max-request-size: 1000Mb
+      file-size-threshold: 1Mb # 当上传文件达到1MB的时候进行磁盘写入
+
+
+
+
+
+
